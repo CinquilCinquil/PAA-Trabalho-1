@@ -1,5 +1,5 @@
-#ifndef Clauses
-#define Clauses
+#ifndef CLAUSE
+#define CLAUSE
 
 #include <tuple>
 #include <vector>
@@ -9,16 +9,14 @@
 using literal = std::tuple<int, bool>;
 using StringClause = std::vector<std::vector<std::string>>;
 
-class Clause
-{
+class Clause {
 public:
     std::vector<literal> literals;
 
     std::vector<int> get_variables();
 };
 
-class ClauseSet
-{
+class ClauseSet {
 public:
     std::vector<int> variables;
     std::vector<Clause> clauses;

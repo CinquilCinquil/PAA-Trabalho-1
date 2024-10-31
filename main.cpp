@@ -4,7 +4,7 @@
 
 int main() {
 
-    ClauseSet *test = new ClauseSet({
+    ClauseSet * test = new ClauseSet({
         {"x", "-y"}, {"x"}, {"y"}
     });
 

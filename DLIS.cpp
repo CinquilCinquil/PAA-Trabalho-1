@@ -1,5 +1,7 @@
-#ifndef DLIS
+#ifndef DLIS_file
 #define DLIS_file
+
+#include "Clause.cpp"
 
 int DLIS(ClauseSet * clause_set) {
 

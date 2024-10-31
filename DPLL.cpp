@@ -1,4 +1,4 @@
-#ifndef DPLL
+#ifndef DPLL_file
 #define DPLL_file
 
 #include "Clause.cpp"
