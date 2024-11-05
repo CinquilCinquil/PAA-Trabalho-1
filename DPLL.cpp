@@ -17,7 +17,7 @@ bool DPLL(ClauseSet * clause_set) {
         return DPLL(clause_set->apply(unit_clause_var, !negated));
     }
 
-    // pure literal case?
+    // TODO: do we deal with the pure literal case?
 
     int new_var = DLIS(clause_set);
 

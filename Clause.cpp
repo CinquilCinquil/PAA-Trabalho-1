@@ -52,7 +52,7 @@ public:
                 if (std::find(clause.literals.begin(), clause.literals.end(), literal(var, negated)) == clause.literals.end())
                     clause.literals.push_back(literal(var, negated));
 
-                if (std::find(variables.begin(), variables.end(), var) != this->variables.end())
+                if (std::find(variables.begin(), variables.end(), var) == this->variables.end())
                     this->variables.push_back(var);
             }
 
@@ -146,7 +146,11 @@ public:
             c.print();
             std::cout << ", ";
         }
-        std::cout << "]";
+        std::cout << "] var(";
+        for (int var : variables) {
+            std::cout << var << ", ";
+        }
+        std::cout << ")\n";
     }
 };
 
