@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <iostream>
 
 using literal = std::tuple<int, bool>;
 using StringClause = std::vector<std::vector<std::string>>;
@@ -17,6 +18,14 @@ public:
 
     int size() {
         return literals.size();
+    }
+
+    void print() {
+        std::cout << '{';
+        for (literal l : literals) {
+            std::cout << (std::get<1>(l) ? "" : "-")  << std::get<0>(l) << ", ";
+        }
+        std::cout << '}';
     }
 };
 
@@ -40,7 +49,7 @@ public:
                 bool negated = s.size() == 2 ? true : false;
                 int var = negated ? (int)s[1] : (int)s[0];
 
-                if (std::find(clause.literals.begin(), clause.literals.end(), literal(var, negated)) != clause.literals.end())
+                if (std::find(clause.literals.begin(), clause.literals.end(), literal(var, negated)) == clause.literals.end())
                     clause.literals.push_back(literal(var, negated));
 
                 if (std::find(variables.begin(), variables.end(), var) != this->variables.end())
@@ -129,6 +138,15 @@ public:
         }
 
         return this;
+    }
+
+    void print() {
+        std::cout << "[";
+        for (Clause c : clauses) {
+            c.print();
+            std::cout << ", ";
+        }
+        std::cout << "]";
     }
 };
 
