@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 
-using literal = std::tuple<int, bool>;
+using literal = std::tuple<int, bool>; /*<variable id, negated> */
 using StringClause = std::vector<std::vector<std::string>>;
 
 class Clause {
@@ -23,7 +23,7 @@ public:
     void print() {
         std::cout << '{';
         for (literal l : literals) {
-            std::cout << (std::get<1>(l) ? "" : "-")  << std::get<0>(l) << ", ";
+            std::cout << (std::get<1>(l) ? "-" : "")  << std::get<0>(l) << ", ";
         }
         std::cout << '}';
     }
@@ -33,6 +33,8 @@ class ClauseSet {
 public:
     std::vector<int> variables;
     std::vector<Clause> clauses;
+
+    ClauseSet() {};
 
     /**
      * Constrói o conjunto de cláusulas a partir de várias strings.
