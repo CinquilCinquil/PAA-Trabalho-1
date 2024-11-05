@@ -14,7 +14,7 @@ int DLIS(ClauseSet * clause_set) {
         int n = clause_set->longest_clause_size();
 
         for (int k = 0;k < n;k ++) {
-            f_sum += clause_set->clauses_with_var(variable, k);
+            f_sum += clause_set->count_clauses_containing_var_with_specified_size(variable, k);
         }
 
         if (f_sum > max_f) {
