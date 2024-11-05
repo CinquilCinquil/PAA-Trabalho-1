@@ -40,7 +40,7 @@ public:
                 bool negated = s.size() == 2 ? true : false;
                 int var = negated ? (int)s[1] : (int)s[0];
 
-                if (std::find(clause.literals.begin(), clause.literals.end(), var) != clause.literals.end())
+                if (std::find(clause.literals.begin(), clause.literals.end(), literal(var, negated)) != clause.literals.end())
                     clause.literals.push_back(literal(var, negated));
 
                 if (std::find(variables.begin(), variables.end(), var) != this->variables.end())
