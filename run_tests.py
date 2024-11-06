@@ -1,5 +1,5 @@
 """
-Tests all test files 
+Runs the sat solver in all .cnf files of a specified folder
 """
 
 import os
