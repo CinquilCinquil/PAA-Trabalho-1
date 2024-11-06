@@ -63,6 +63,14 @@ public:
     }
 
     /**
+     * Constrói uma cópia de um conjunto de cláusulas.
+     */
+    ClauseSet(const ClauseSet& other) {
+        this->variables = std::vector<int>(other.variables);
+        this->clauses = std::vector<Clause>(other.clauses);
+    }
+
+    /**
      * Checa se existe alguma cláusula vazia
      */
     bool has_empty_clause() {
@@ -73,12 +81,12 @@ public:
     }
 
     /**
-     * Checa se existe alguma cláusula com apenas 1 literal.
+     * Checa se existe alguma cláusula com apenas 1 literal não negado.
      * Se existir, retorna a referência para o literal pelo ponteiro passado.
      */
-    bool has_unit_clause(literal *var) { 
+    bool has_non_negated_unit_clause(literal *var) { 
         for(Clause c : clauses) {
-            if(c.size() == 1) {
+            if(c.size() == 1 && !std::get<1>(c.literals[0])) {
                 *var = c.literals[0];
                 return true;
             }
@@ -121,25 +129,33 @@ public:
     /**
      * Aplica o valor à variável.
      * Esse método remove todas as cláusulas que serão satisfeitas e remove os literais que nunca
-     * serão satisfeitos.
+     * serão satisfeitos, gerando uma cópia do conjunto de cláusulas.
      */
     ClauseSet *apply(int var, bool value) { 
-        int sz = clauses.size();
+        ClauseSet * new_clause_set = new ClauseSet(*this);
+
+        int sz = new_clause_set->clauses.size();
         int index = 0;
         for(int i=0; i<sz; i++) {
-            auto &literals = clauses[index].literals;
+            auto &literals = new_clause_set->clauses[index].literals;
+            
             bool is_clause_satisfied = std::find(literals.begin(), literals.end(), literal(var, !value)) != literals.end();
             auto oposite_literal = std::find(literals.begin(), literals.end(), literal(var, value));
 
             if(is_clause_satisfied) {
-                clauses.erase(clauses.begin() + index);
+                new_clause_set->clauses.erase(new_clause_set->clauses.begin() + index);
             } else {
                 if(oposite_literal != literals.end()) literals.erase(oposite_literal);
                 index++;
             }
         }
 
-        return this;
+        auto &new_variables = new_clause_set->variables;
+        auto var_it = std::find(new_variables.begin(), new_variables.end(), var);
+        if (var_it != new_variables.end())
+            new_variables.erase(var_it);
+
+        return new_clause_set;
     }
 
     void print() {
