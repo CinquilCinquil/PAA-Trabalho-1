@@ -9,11 +9,12 @@ if (len(sys.argv) > 1):
 
     test_folder = sys.argv[1]
 
-    path = "test_results" + os.path.sep + "composed_results.txt"
+    path = "test_results" + os.path.sep + "composed_results_" + sys.argv[1].replace("\\", "").replace("/", "") + ".txt"
+    print(path)
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     with open(path, 'w') as composed_result_file:
-        composed_result_file.write("name, is_sat, solution, time\n")
+        composed_result_file.write("name, is_sat_result, is_sat, is_correct, solution, time\n")
 
         for f in os.listdir(test_folder):
             if f.split(".")[-1] == "txt":

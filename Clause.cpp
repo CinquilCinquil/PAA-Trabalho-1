@@ -223,9 +223,8 @@ public:
     }
 };
 
-/** TODO: extend; this is currently checking if a given solution satifies the clause_set,
- * not if the clause_set has a solution.
- * Checa se uma solução está correta.
+/**
+ * Checa se uma solução está satisfaz um conjunto de cláusulas.
  */
 bool verifier(ClauseSet * clause_set, std::string solution) {
 

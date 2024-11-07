@@ -21,14 +21,18 @@ int main(int argc, char **argv)
 
         auto start = std::chrono::high_resolution_clock::now();
 
-        auto dpll_return = DPLL(test);
+        auto dpll_return = heuristic_DPLL(test);
 
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start; // time in seconds
 
-        bool is_correct = verifier(test, std::get<1>(dpll_return));
+        bool value = std::get<0>(dpll_return);
+        std::string solution = std::get<1>(dpll_return);
 
-        outFile << std::get<0>(dpll_return) << ", " << is_correct << ", " << std::get<1>(dpll_return) << ", " << duration.count();
+        bool is_satisfiable = verifier(test, solution);
+        bool is_correct = std::get<0>(DPLL(test)) == value;
+
+        outFile << std::get<0>(dpll_return) << ", " << is_satisfiable << ", " << is_correct << ", " << solution << ", " << duration.count();
         std::cout << "Result saved in " << solution_path << '\n';
     }
     else {
