@@ -26,7 +26,9 @@ int main(int argc, char **argv)
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start; // time in seconds
 
-        outFile << std::get<0>(dpll_return) << ", " << std::get<1>(dpll_return) << ", " << duration.count();
+        bool is_correct = verifier(test, std::get<1>(dpll_return));
+
+        outFile << std::get<0>(dpll_return) << ", " << is_correct << ", " << std::get<1>(dpll_return) << ", " << duration.count();
         std::cout << "Result saved in " << solution_path << '\n';
     }
     else {

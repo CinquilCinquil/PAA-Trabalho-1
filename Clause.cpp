@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <string>
 #include <iostream>
+#include <map>
+#include <sstream>
 
 using literal = std::tuple<int, bool>; /*<variable id, negated> */
 using StringClause = std::vector<std::vector<std::string>>;
@@ -58,7 +60,19 @@ public:
                     this->variables.push_back(var);
             }
 
-            this->clauses.push_back(clause);
+            bool add_clause = true;
+            for (literal l : clause.literals) {
+                for (literal k : clause.literals) {
+                    if (std::get<0>(l) == std::get<0>(k) && std::get<1>(l) != std::get<1>(k)) {
+                        add_clause = false;
+                        break;
+                    }
+                }
+            }
+
+
+            if (add_clause)
+                this->clauses.push_back(clause);
         }
     }
 
@@ -127,6 +141,43 @@ public:
     }
 
     /**
+     * Checa se uma variável tem ocorrências não negadas.
+     */
+    bool has_non_negated_occurences(int var) {
+        for (Clause c : clauses) {
+            for (literal l : c.literals) {
+                bool negated = std::get<1>(l);
+                if (std::get<0>(l) == var && !negated)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checa se uma variável tem mais ocorrências não negadas
+     * (soma ponderada em que aparições em cláusulas menores tem um maior peso).
+     */
+    bool has_greater_positive_occurences(int var) {
+
+        double n_pos = 0, n_neg = 0;
+
+        for (Clause c : clauses) {
+            int size = c.size();
+            for (literal l : c.literals) {
+                bool negated = std::get<1>(l);
+                if (std::get<0>(l) == var) {
+                    n_pos += (!negated) * (1.0/size);
+                    n_neg += negated * (1.0/size);
+                }
+            }
+        }
+
+        return n_pos > n_neg;
+    }
+
+    /**
      * Aplica o valor à variável.
      * Esse método remove todas as cláusulas que serão satisfeitas e remove os literais que nunca
      * serão satisfeitos, gerando uma cópia do conjunto de cláusulas.
@@ -171,5 +222,46 @@ public:
         std::cout << ")\n";
     }
 };
+
+/** TODO: extend; this is currently checking if a given solution satifies the clause_set,
+ * not if the clause_set has a solution.
+ * Checa se uma solução está correta.
+ */
+bool verifier(ClauseSet * clause_set, std::string solution) {
+
+    std::map<int, bool> var_values;
+    
+    std::istringstream iss(solution);
+
+    std::string word;
+
+    while (iss >> word) {
+        char value = word.back();
+        int var = std::stoi(word.substr(0, word.size() - 1));
+        var_values[var] = value == 'T';
+    }
+
+    bool answer = true;
+
+    for (Clause c : clause_set->clauses) {
+
+        bool clause_answer = false;
+
+        for (literal l : c.literals) {
+            if (std::get<1>(l)) {
+                clause_answer = clause_answer || !var_values[std::get<0>(l)];
+            }
+            else {
+                clause_answer = clause_answer || var_values[std::get<0>(l)];
+            }
+        }
+
+        answer = answer && clause_answer;
+
+    }
+
+    return answer;
+
+}
 
 #endif

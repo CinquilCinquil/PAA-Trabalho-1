@@ -19,11 +19,17 @@ sat_solution DPLL(ClauseSet * clause_set, std::string solution = "") {
     }
 
     int new_var = DLIS(clause_set);
+    bool value = clause_set->has_greater_positive_occurences(new_var);
+    if (value) {
+        return DPLL(clause_set->apply(new_var, true), solution + std::to_string(new_var) + "T ");
+    }
 
-    auto dpll_return = DPLL(clause_set->apply(new_var, false), solution + std::to_string(new_var) + "F ");
-    if (std::get<0>(dpll_return)) return sat_solution(true, std::get<1>(dpll_return));
+    return DPLL(clause_set->apply(new_var, false), solution + std::to_string(new_var) + "F ");
+
+    //auto dpll_return = DPLL(clause_set->apply(new_var, false), solution + std::to_string(new_var) + "F ");
+    //if (std::get<0>(dpll_return)) return sat_solution(true, std::get<1>(dpll_return));
     
-    return DPLL(clause_set->apply(new_var, true), solution + std::to_string(new_var) + "T ");
+    //return DPLL(clause_set->apply(new_var, true), solution + std::to_string(new_var) + "T ");
 }
 
 #endif
