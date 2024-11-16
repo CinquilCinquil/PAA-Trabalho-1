@@ -6,9 +6,7 @@ import os
 import sys
 import subprocess
 
-if (len(sys.argv) > 1):
-
-    test_folder = sys.argv[1]
+def run_tests(test_folder):
     run_main = "./main.exe"
     if os.name == 'nt':
         run_main = "main.exe"
@@ -17,5 +15,9 @@ if (len(sys.argv) > 1):
         if f.split(".")[-1] == "cnf":
             command = [run_main, os.path.join(test_folder, f)]
             subprocess.run(command, shell=True)
-else:
-    print("Error: please specify the path to the test folder.")
+
+if __name__ == '__main__':
+    if (len(sys.argv) > 1):
+        run_tests(sys.argv[1])
+    else:
+        print("Error: please specify the path to the test folder.")
