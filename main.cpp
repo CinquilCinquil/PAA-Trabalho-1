@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include "DPLL.cpp"
+#include "CIDPLL.cpp"
 #include "Clause.cpp"
 #include "CNF_reader.cpp"
 
@@ -24,7 +25,7 @@ int main(int argc, char **argv)
 
         auto start = std::chrono::high_resolution_clock::now();
 
-        auto dpll_return = heuristic_DPLL(test);
+        auto dpll_return = CIDPLL(test);
 
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start; // time in seconds
