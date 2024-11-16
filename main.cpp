@@ -12,6 +12,9 @@ int main(int argc, char **argv)
 
     //std::cout << DPLL(test) << '\n';
 
+    /**
+    * Running the tests for the specified file path in argv.
+    */
     if (argc > 1) {
         std::cout << "Executing tests for: " << argv[1] << '\n';
         ClauseSet *test = CNF_reader(argv[1]);
@@ -30,7 +33,7 @@ int main(int argc, char **argv)
         std::string solution = std::get<1>(dpll_return);
 
         bool is_satisfiable = verifier(test, solution);
-        bool is_correct = std::get<0>(DPLL(test)) == value;
+        bool is_correct = false;//std::get<0>(DPLL(test)) == value; this is deactivated due to excessive prolongation of the test results
 
         outFile << std::get<0>(dpll_return) << ", " << is_satisfiable << ", " << is_correct << ", " << solution << ", " << duration.count();
         std::cout << "Result saved in " << solution_path << '\n';

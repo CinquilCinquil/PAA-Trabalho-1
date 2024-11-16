@@ -9,14 +9,12 @@
 #include <map>
 #include <sstream>
 
-using literal = std::tuple<int, bool>; /*<variable id, negated> */
+using literal = std::tuple<int, bool>; /*<variable id, whether it is negated> */
 using StringClause = std::vector<std::vector<std::string>>;
 
 class Clause {
 public:
     std::vector<literal> literals;
-
-    std::vector<int> get_variables();
 
     int size() {
         return literals.size();
@@ -39,9 +37,9 @@ public:
     ClauseSet() {};
 
     /**
-     * Constrói o conjunto de cláusulas a partir de várias strings.
-     * {{"x"}, {"-x", "y"}, {"-y"}} representa a expressão
-     * (x) E (NÃO x OU y) E (NÃO y)
+     * Makes a clause set from a list of strings.
+     * {{"x"}, {"-x", "y"}, {"-y"}} represents the expression
+     * (x) AND (NOT x OR y) AND (NOT y)
      */
     ClauseSet(StringClause clause_in_string) {
 
@@ -77,7 +75,7 @@ public:
     }
 
     /**
-     * Constrói uma cópia de um conjunto de cláusulas.
+     * Makes a copy from a ClauseSet.
      */
     ClauseSet(const ClauseSet& other) {
         this->variables = std::vector<int>(other.variables);
@@ -85,7 +83,7 @@ public:
     }
 
     /**
-     * Checa se existe alguma cláusula vazia
+     * Checks whether there is an empty clause.
      */
     bool has_empty_clause() {
         for(Clause c : clauses) {
@@ -95,8 +93,8 @@ public:
     }
 
     /**
-     * Checa se existe alguma cláusula com apenas 1 literal não negado.
-     * Se existir, retorna a referência para o literal pelo ponteiro passado.
+     * Checks whether there is a clause with one non-negated literal.
+     * If it exists, returns a reference to it through the pointer passed.
      */
     bool has_non_negated_unit_clause(literal *var) { 
         for(Clause c : clauses) {
@@ -109,7 +107,7 @@ public:
     }
 
     /**
-     * Auto-explicativo
+     * Self-explanatory
      */
     int count_clauses_containing_var_with_specified_size(int var, int clause_size) { 
         int answer = 0;
@@ -127,21 +125,21 @@ public:
      }
 
     /**
-     * Retorna o tamanho da cláusula mais longa.
-     * O tamanho de uma cláusula é a sua quantidade de literais.
+     * Returns the size of the longest clause.
+     * The size of the clause is its amount of literals.
      */
     int longest_clause_size() { 
         int maximum_size = 0;
         for(Clause c : clauses) {
             if(c.size() > maximum_size) {
-                maximum_size = c.literals.size();
+                maximum_size = c.size();
             }
         }
         return maximum_size;
     }
 
     /**
-     * Checa se uma variável tem ocorrências não negadas.
+     * Checks if a variable has non-negated occurences.
      */
     bool has_non_negated_occurences(int var) {
         for (Clause c : clauses) {
@@ -156,8 +154,8 @@ public:
     }
 
     /**
-     * Checa se uma variável tem mais ocorrências não negadas
-     * (soma ponderada em que aparições em cláusulas menores tem um maior peso).
+     * Checks if a variable has more non-negated occurences
+     * (weighted sum where occurences in smaller clauses have greater weight).
      */
     bool has_greater_positive_occurences(int var) {
 
@@ -178,9 +176,9 @@ public:
     }
 
     /**
-     * Aplica o valor à variável.
-     * Esse método remove todas as cláusulas que serão satisfeitas e remove os literais que nunca
-     * serão satisfeitos, gerando uma cópia do conjunto de cláusulas.
+     * Applies the value to the variable.
+     * This method removes all clauses that will be satisfied and removes literals wich will never
+     * be satisfied. All in a copy of the clause set that is then returned.
      */
     ClauseSet *apply(int var, bool value) { 
         ClauseSet * new_clause_set = new ClauseSet(*this);
@@ -224,7 +222,7 @@ public:
 };
 
 /**
- * Checa se uma solução está satisfaz um conjunto de cláusulas.
+ * Checks if a solution satisfies a clause set.
  */
 bool verifier(ClauseSet * clause_set, std::string solution) {
 

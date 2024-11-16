@@ -3,6 +3,9 @@
 
 #include "Clause.cpp"
 
+/**
+ * Returns the variable with most occurences in a clause set.
+ */
 int DLIS(ClauseSet * clause_set) {
 
     int max_f = 0;
