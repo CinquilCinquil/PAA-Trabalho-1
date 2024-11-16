@@ -4,7 +4,7 @@ import subprocess
 from run_tests import run_tests
 from compose_test_results import compose_test_results
 
-subprocess.run(["g++", "main.cpp", "-o", "main.exe"], shell=True)
+subprocess.run(["g++", "main.cpp", "-o", "main.exe"], shell=False)
 
 print("\n### WELCOME ###\n")
 print("This is a menu where you can execute tests with the CIDPLL algorithm.\n")
@@ -30,7 +30,7 @@ while True:
 
         command = [run_main, filepath]
 
-        subprocess.run(command, shell=True)
+        subprocess.run(command, shell=False)
     elif selected_option == 3:
         break
     else:

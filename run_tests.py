@@ -14,7 +14,7 @@ def run_tests(test_folder):
     for f in os.listdir(test_folder):
         if f.split(".")[-1] == "cnf":
             command = [run_main, os.path.join(test_folder, f)]
-            subprocess.run(command, shell=True)
+            subprocess.run(command, shell=False)
 
 if __name__ == '__main__':
     if (len(sys.argv) > 1):
