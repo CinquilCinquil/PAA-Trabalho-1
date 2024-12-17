@@ -30,6 +30,6 @@ Each test outputs 6 parameters:
 - is_sat: whether the solution (string) satisfies the expression;
 - is_correct: whether the boolean expression tested upon is satistiable or not *;
 - solution: the string with the solution;
-- time: the time it took for `CIDPLL` to execute in seconds.
+- time: the time it took for `DPLL` to execute in seconds.
 
 (* all entries to this field have been set to `False` due to the large amount of time it takes for the exact algorithm `DPLL` to execute. However, it is worth noting that all tests in `test_cases\uf20-91` are known to be satisfiable, therefore the accuracy of the algorithm can be measured by the percentage of `True` outputs in is_sat_result)
