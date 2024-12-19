@@ -5,7 +5,7 @@ Unites all of the test results of a certain folder in a single file
 import os
 import sys
 
-def compose_test_results(test_folder, alg = ""):
+def compose_test_results(alg, test_folder):
     path = "test_results" + os.path.sep + "composed_results_" + alg + "_" + test_folder.replace("\\", "").replace("/", "_") + ".txt"
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
@@ -21,7 +21,7 @@ def compose_test_results(test_folder, alg = ""):
     print("\nComposed test results saved in: ", path)
 
 if __name__ == '__main__':
-    if (len(sys.argv) > 1):
-        compose_test_results(sys.argv[1])
+    if (len(sys.argv) == 3):
+        compose_test_results(sys.argv[1], sys.argv[2])
     else:
-        print("Error: please specify the path to the test folder.")
+        print("Error: not enough input values.")

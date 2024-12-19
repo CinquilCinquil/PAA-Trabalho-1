@@ -22,7 +22,7 @@ while True:
     if selected_option == 1:
         filepath = input("Please enter the path to the folder containing tests: ")
         run_tests(current_alg, filepath)
-        compose_test_results(filepath, alg = current_alg)
+        compose_test_results(current_alg, filepath)
         print("All finished")
     elif selected_option == 2:
         filepath = input("Please enter the path to the test file: ")

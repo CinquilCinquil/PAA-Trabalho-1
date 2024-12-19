@@ -9,12 +9,12 @@ You can either use the user interface with `python user_interface.py` or use the
 Compile: `g++ main.cpp -o main.exe`
 
 Run a single test:
-- **Windows**: `main.exe <algorithm> <folder_with_tests>`
-- **Linux**: `./main.exe <algorithm> <folder_with_tests>`
+- **Windows**: `main.exe <algorithm> <file>`
+- **Linux**: `./main.exe <algorithm> <file>`
 
 Run all tests in a folder: `python run_tests.py <algorithm> <folder_with_tests>`
 
-Group tests results in a folder into a single file: `python compose_test_results.py <folder_with_tests>`
+Group tests results in a folder into a single file: `python compose_test_results.py <algorithm> <folder_with_tests>`
 
 ### Examples:
 **Windows**: `python run_tests.py DPLL test_cases\uf20-91` <br>
