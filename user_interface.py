@@ -7,7 +7,7 @@ from compose_test_results import compose_test_results
 subprocess.run(["g++", "main.cpp", "-o", "main.exe"], shell=False)
 
 print("\n### WELCOME ###\n")
-print("This is a menu where you can execute tests with the DPLL algorithm.\n")
+print("This is a menu where you can execute tests with the CIDPLL algorithm.\n")
 
 while True:
     print("Type:\n")

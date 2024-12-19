@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 
         auto start = std::chrono::high_resolution_clock::now();
 
-        auto dpll_return = DPLL(test);
+        auto dpll_return = CIDPLL(test);
 
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start; // time in seconds
