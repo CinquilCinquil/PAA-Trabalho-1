@@ -9,16 +9,16 @@ You can either use the user interface with `python user_interface.py` or use the
 Compile: `g++ main.cpp -o main.exe`
 
 Run a single test:
-- **Windows**: `main.exe <folder_with_tests>`
-- **Linux**: `./main.exe <folder_with_tests>`
+- **Windows**: `main.exe <algorithm> <folder_with_tests>`
+- **Linux**: `./main.exe <algorithm> <folder_with_tests>`
 
-Run all tests in a folder: `python run_tests.py <folder_with_tests>`
+Run all tests in a folder: `python run_tests.py <algorithm> <folder_with_tests>`
 
 Group tests results in a folder into a single file: `python compose_test_results.py <folder_with_tests>`
 
 ### Examples:
-**Windows**: `python run_tests.py test_cases\uf20-91` <br>
-**Linux**: `python3 run_tests.py test_cases/uf20-91`
+**Windows**: `python run_tests.py DPLL test_cases\uf20-91` <br>
+**Linux**: `python3 run_tests.py CIDPLL test_cases/uf20-91`
 
 ## How are the tests organized?
 
@@ -32,4 +32,4 @@ Each test outputs 6 parameters:
 - solution: the string with the solution;
 - time: the time it took for `DPLL` to execute in seconds.
 
-(* all entries to this field have been set to `False` due to the large amount of time it takes for the exact algorithm `DPLL` to execute. However, it is worth noting that all tests in `test_cases\uf20-91` are known to be satisfiable, therefore the accuracy of the algorithm can be measured by the percentage of `True` outputs in is_sat_result)
+(* Please ignore this field. All entries to this field have been set to `False` due to the large amount of time it takes for the exact algorithm `DPLL` to execute. However, it is worth noting that all tests in `test_cases\uf20-91` are known to be satisfiable, therefore the accuracy of the algorithm can be measured by the percentage of `True` outputs in is_sat_result)

@@ -17,15 +17,33 @@ int main(int argc, char **argv)
     * Running the tests for the specified file path in argv.
     */
     if (argc > 1) {
-        std::cout << "Executing tests for: " << argv[1] << '\n';
-        ClauseSet *test = CNF_reader(argv[1]);
+        std::string input_algorithm = argv[1];
+        auto input_filepath = argv[2];
 
-        std::string solution_path = std::string(argv[1]) + "_results.txt";
+        std::cout << "Executing tests for: " << input_filepath << '\n';
+        ClauseSet *test = CNF_reader(input_filepath);
+
+        std::string solution_path = std::string(input_filepath) + "_" + input_algorithm + "_results.txt";
         std::ofstream outFile(solution_path);
+
+        sat_solution(*alg)(ClauseSet *, std::string);
+
+        if (input_algorithm == "DPLL") {
+
+            alg = DPLL;
+
+        } else if (input_algorithm == "CIDPLL") {
+
+            alg = CIDPLL;
+
+        } else {
+            std::cout << "Error: please specify an algorithm.\n";
+            return 0;
+        }
 
         auto start = std::chrono::high_resolution_clock::now();
 
-        auto dpll_return = CIDPLL(test);
+        auto dpll_return = alg(test, "");
 
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start; // time in seconds
