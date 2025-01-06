@@ -261,4 +261,41 @@ bool verifier(ClauseSet * clause_set, std::string solution) {
 
 }
 
+int evaluator(ClauseSet * clause_set, std::string solution) {
+
+    std::map<int, bool> var_values;
+    
+    std::istringstream iss(solution);
+
+    std::string word;
+
+    while (iss >> word) {
+        char value = word.back();
+        int var = std::stoi(word.substr(0, word.size() - 1));
+        var_values[var] = value == 'T';
+    }
+
+    int accepted_clauses = 0;
+
+    for (Clause c : clause_set->clauses) {
+
+        bool clause_answer = false;
+
+        for (literal l : c.literals) {
+            if (std::get<1>(l)) {
+                clause_answer = clause_answer || !var_values[std::get<0>(l)];
+            }
+            else {
+                clause_answer = clause_answer || var_values[std::get<0>(l)];
+            }
+        }
+
+        if (clause_answer)
+            accepted_clauses ++;
+    }
+
+    return accepted_clauses;
+
+}
+
 #endif
