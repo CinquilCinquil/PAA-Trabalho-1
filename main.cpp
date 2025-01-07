@@ -60,7 +60,11 @@ int main(int argc, char **argv)
         //bool is_satisfiable = verifier(test, solution);
         int quality = evaluator(test, solution);
 
-        outFile << std::get<0>(alg_return) << ", " << quality << ", " << solution << ", " << duration.count();
+        std::string execution_info = std::to_string(std::get<0>(alg_return)) + ", " + std::to_string(quality) +
+         ", " + solution + ", " + std::to_string(duration.count());
+
+        outFile << execution_info;
+        std::cout << "Result for " << input_filepath << ": " << execution_info << "\n";
         std::cout << "Result saved in " << solution_path << '\n';
     }
     else {

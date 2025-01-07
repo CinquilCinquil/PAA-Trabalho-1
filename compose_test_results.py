@@ -10,7 +10,7 @@ def compose_test_results(alg, test_folder):
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     with open(path, 'w') as composed_result_file:
-        composed_result_file.write("name, is_sat_result, is_sat, is_correct, solution, time\n")
+        composed_result_file.write("name, is_sat, evaluation, solution, time\n")
 
         for f in os.listdir(test_folder):
             correct_alg = ("_" + alg + "_") in f or alg == ""
