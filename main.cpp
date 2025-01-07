@@ -1,5 +1,6 @@
 #include <iostream>
 #include <chrono>
+#include <stdlib.h>
 #include "DPLL.cpp"
 #include "CIDPLL.cpp"
 #include "TS.cpp"
@@ -7,9 +8,7 @@
 #include "CNF_reader.cpp"
 
 int main(int argc, char **argv)
-{
-    srand(time(0));
-    
+{   
     //ClauseSet *test = new ClauseSet({{"x", "-y"}, {"x"}, {"y"}});
     //ClauseSet *test = new ClauseSet((StringClause){{"-x"}, {"x"}});
 
@@ -18,15 +17,15 @@ int main(int argc, char **argv)
     /**
     * Running the tests for the specified file path in argv.
     */
-    if (argc > 1) {
+    if (argc == 4) {
         std::string input_algorithm = argv[1];
         auto input_filepath = argv[2];
+        int repetitions = std::stoi(argv[3]);
 
-        std::cout << "Executing tests for: " << input_filepath << '\n';
-        ClauseSet *test = CNF_reader(input_filepath);
-
-        std::string solution_path = std::string(input_filepath) + "_" + input_algorithm + "_results.txt";
-        std::ofstream outFile(solution_path);
+        if (repetitions <= 0) {
+            std::cout << "Error: 'repetitions' must be a positive number.\n";
+            return 0;
+        }
 
         sat_solution(*alg)(ClauseSet *, std::string);
 
@@ -43,32 +42,52 @@ int main(int argc, char **argv)
             alg = TS;
 
         } else {
-            std::cout << "Error: please specify an algorithm.\n";
+            std::cout << "Error: please specify a valid algorithm.\n";
             return 0;
         }
 
-        auto start = std::chrono::high_resolution_clock::now();
+        std::cout << "Executing tests for: " << input_filepath << '\n';
+        ClauseSet *test = CNF_reader(input_filepath);
 
-        auto alg_return = alg(test, "");
+        std::string solution_path = std::string(input_filepath) + "_" + input_algorithm + "_results.txt";
+        std::ofstream outFile(solution_path);
 
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> duration = end - start; // time in seconds
+        std::string total_execution_info;
 
-        bool value = std::get<0>(alg_return);
-        std::string solution = std::get<1>(alg_return);
+        unsigned int seed = time(0);
 
-        //bool is_satisfiable = verifier(test, solution);
-        int quality = evaluator(test, solution);
+        for (int i = 0;i < repetitions;i ++) {
 
-        std::string execution_info = std::to_string(std::get<0>(alg_return)) + ", " + std::to_string(quality) +
-         ", " + solution + ", " + std::to_string(duration.count());
+            set_seed_TS(seed + i);
 
-        outFile << execution_info;
-        std::cout << "Result for " << input_filepath << ": " << execution_info << "\n";
+            auto start = std::chrono::high_resolution_clock::now();
+
+            auto alg_return = alg(test, "");
+
+            auto end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> duration = end - start; // time in seconds
+
+            bool value = std::get<0>(alg_return);
+            std::string solution = std::get<1>(alg_return);
+
+            //bool is_satisfiable = verifier(test, solution);
+            int quality = evaluator(test, solution);
+
+            std::string execution_info = std::to_string(std::get<0>(alg_return)) +
+            ", " + std::to_string(quality) +
+            ", " + solution +
+            ", " + std::to_string(duration.count()) +
+            ", " + std::to_string(seed + i) + '\n';
+
+            total_execution_info += execution_info;
+            outFile << execution_info;
+        }
+
+        std::cout << "Result for " << input_filepath << ":\n" << total_execution_info;
         std::cout << "Result saved in " << solution_path << '\n';
     }
     else {
-        std::cout << "Error: please specify a file.\n";
+        std::cout << "Error: Invalid command. Please check README.md .\n";
     }
 
     return 0;

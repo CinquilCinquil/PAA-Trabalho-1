@@ -1,13 +1,22 @@
 #ifndef TS_file
 #define TS_file
 
+#include <stdlib.h>
 #include "Clause.cpp"
 #include "TS_util.cpp"
 
 using sat_answer = std::tuple<bool, std::string>;
 using bool_vec = std::vector<bool>;
 
+unsigned int seed;
+
+void set_seed_TS(int s) {
+    seed = s;
+}
+
 sat_answer TS(ClauseSet * clause_set, std::string str = "") {
+
+    srand(seed);
 
     int n_vars = clause_set->variables.size();
 
