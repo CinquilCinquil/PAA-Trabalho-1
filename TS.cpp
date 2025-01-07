@@ -15,7 +15,6 @@ sat_answer TS(ClauseSet * clause_set, std::string str = "") {
     std::vector<std::vector<int>> TL;
     bool_vec sol = generate_arbitrary_solution(n_vars);
     int sol_quality = evaluator(clause_set, bool_vec_to_string(sol));
-    int blocks = 0;
 
     while (iter - bestiter < maxiter) {
         iter ++;
@@ -25,7 +24,6 @@ sat_answer TS(ClauseSet * clause_set, std::string str = "") {
         
         if (verifier(clause_set, best_solution_string)) {
 
-            std::cout << blocks << " True\n";
             return sat_answer(true, best_solution_string);
 
         } else {
@@ -37,17 +35,14 @@ sat_answer TS(ClauseSet * clause_set, std::string str = "") {
                 if (new_solution_quality > sol_quality) {
                     sol_quality = new_solution_quality;
                     sol = best_solution;
+                    bestiter = iter;
                 }
 
                 TL.push_back(move);
             }
-            else {
-                blocks ++;
-            }
         }
     }
 
-    std::cout << blocks << " False\n";
     return sat_answer(false, bool_vec_to_string(sol));
 }
 
