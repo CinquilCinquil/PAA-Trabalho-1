@@ -6,6 +6,7 @@
 #include "TS.cpp"
 #include "Clause.cpp"
 #include "CNF_reader.cpp"
+#include "GENETIC.cpp"
 
 int main(int argc, char **argv)
 {   
@@ -17,7 +18,7 @@ int main(int argc, char **argv)
     /**
     * Running the tests for the specified file path in argv.
     */
-    if (argc == 4) {
+    if (argc >= 4) {
         std::string input_algorithm = argv[1];
         auto input_filepath = argv[2];
         int repetitions = std::stoi(argv[3]);
@@ -41,6 +42,10 @@ int main(int argc, char **argv)
 
             alg = TS;
 
+        } else if (input_algorithm == "GENETIC") {
+
+            alg = GENETIC;
+
         } else {
             std::cout << "Error: please specify a valid algorithm.\n";
             return 0;
@@ -53,12 +58,18 @@ int main(int argc, char **argv)
         std::ofstream outFile(solution_path);
 
         std::string total_execution_info;
+        
+        unsigned int seed;
+        if(argc == 5) {
+            seed = std::stoi(argv[4]);
+        } else {
+            seed = time(0);
+        }
 
-        unsigned int seed = time(0);
-
+    
         for (int i = 0;i < repetitions;i ++) {
 
-            set_seed_TS(seed + i);
+            srand(seed+i);
 
             auto start = std::chrono::high_resolution_clock::now();
 
