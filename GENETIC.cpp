@@ -6,9 +6,9 @@
 #include "vector"
 
 using sat_solution = std::tuple<bool, std::string>;
-using population_t = std::pair<int, std::vector<bool>>;
+using population_t = std::pair<int, bool*>;
 
-const int POP_SIZE = 500;
+const int POP_SIZE = 100;
 const double ELITISM_RATE = 0.7;
 const int BEST_THRESHOLD = ELITISM_RATE*POP_SIZE;
 const int ITERATION_LIMIT = 1000;
@@ -54,7 +54,7 @@ bool check_trivial_cases(ClauseSet *clause_set, std::string *solution) {
 }
 
 
-int fitness(std::vector<bool> &assignment, ClauseSet *clauses) {
+int fitness(bool *assignment, ClauseSet *clauses) {
   int result = 0;
   for(auto &c : clauses->clauses) {
     for(auto l : c.literals) {
@@ -74,10 +74,10 @@ int fitness(std::vector<bool> &assignment, ClauseSet *clauses) {
 }
 
 void generate_first_generation(ClauseSet *clauses, population_t *population) {
-  int n_variables = clauses->clauses.size();
+  int n_variables = clauses->variables.size();
 
   for(int i=0; i<POP_SIZE; i++) {
-    population[i].second = std::vector<bool>(n_variables+1);
+    population[i].second = new bool[n_variables+1];
     for(int j=1; j<=n_variables; j++) {
       population[i].second[j] = rand() % 2;
     }
@@ -85,9 +85,9 @@ void generate_first_generation(ClauseSet *clauses, population_t *population) {
   }
 }
 
-std::string solution_to_string(std::vector<bool> &solution) {
+std::string solution_to_string(bool *solution, int n_variables) {
   std::string s;
-  for(int i=1; i<solution.size(); i++) {
+  for(int i=1; i<=n_variables; i++) {
     if(i != 1) s.push_back(' ');
     s.append(std::to_string(i));
     s.push_back(solution[i] ? 'T' : 'F');
@@ -95,18 +95,35 @@ std::string solution_to_string(std::vector<bool> &solution) {
   return s;
 }
 
-population_t crossover(population_t &a, population_t &b) {
-  population_t child = {0, {}};
-  for(int i=0; i<a.second.size(); i++) {
-    child.second.push_back(i%2 ? a.second[i] : b.second[i]);
+void crossover(population_t &a, population_t &b, population_t &child, int n_variables) {
+  for(int i=1; i<=n_variables; i++) {
+    child.second[i] = (i%2 ? a.second[i] : b.second[i]);
   }
-  return child;
 }
 
 void mutate(population_t &p, ClauseSet *clauses) {
-  int random_pos = (rand() % clauses->clauses.size()) + 1;
+  int random_pos = (rand() % clauses->variables.size()) + 1;
   p.second[random_pos] = !p.second[random_pos];
   p.first = fitness(p.second, clauses);
+}
+
+void mutate_greedy(population_t &p, ClauseSet *clauses) {
+  int n_variables = clauses->variables.size();
+  int best_var = 1;
+  int best_fit = 0;
+  for(int i=1; i<=n_variables; i++) {
+    p.second[i] = !p.second[i];
+    int fit = fitness(p.second, clauses);
+    p.second[i] = !p.second[i];
+
+    if(fit > best_fit) {
+      best_fit = fit;
+      best_var = i;
+    }
+  }
+
+  p.first = best_fit;
+  p.second[best_var] = !p.second[best_var];
 }
 
 std::pair<int, int> roulette_wheel_selection_from_best(population_t* population, int* cumulative_fitness) {
@@ -157,7 +174,7 @@ sat_solution GENETIC(ClauseSet *clause_set, std::string solution = "") {
     sort(current_generation, current_generation + POP_SIZE, comp);
 
     if(current_generation[0].first == clause_set->clauses.size()) {
-      return {true, solution_to_string(current_generation[0].second)};
+      return {true, solution_to_string(current_generation[0].second, clause_set->variables.size())};
     } else if (current_generation[0].first > best_fitting) {
       last_improvement_iteration = current_iteration;
       best_fitting = current_generation[0].first;
@@ -172,12 +189,15 @@ sat_solution GENETIC(ClauseSet *clause_set, std::string solution = "") {
 
     for(int i=0; i<POP_SIZE-BEST_THRESHOLD; i++) {
       std::pair<int, int> parents = roulette_wheel_selection_from_best(current_generation, cumulative_fitness);
-      current_generation[BEST_THRESHOLD+i] = crossover(current_generation[parents.first], current_generation[parents.second]);
-      
+      crossover(current_generation[parents.first], current_generation[parents.second], current_generation[BEST_THRESHOLD+i], clause_set->variables.size());
       mutate(current_generation[BEST_THRESHOLD+i], clause_set);
     }
 
     current_iteration++;
+  }
+
+  for(int i=0; i<POP_SIZE; i++) {
+    delete current_generation[i].second;
   }
 
   return {false, ""};
