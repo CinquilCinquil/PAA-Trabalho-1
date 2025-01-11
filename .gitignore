@@ -1,4 +1,9 @@
 .vscode
-test_cases/*
-!test_cases/*.cnf
-!test_cases/uf20-91/*.cnf
+test_cases/*.txt
+test_cases/CBS_k3_n100_m403_b10/*
+test_cases/genetic_training/*
+test_cases/uf250-1065/*
+test_cases/uf20-91/*.txt
+test_cases/uf50-218/*.txt
+test_results/*.txt
+test_results/*/*.txt
