@@ -46,7 +46,7 @@ std::vector<bool_vec> get_neighbour_solutions(bool_vec sol) {
 
 std::vector<bool_vec> get_neighbour_solutions(bool_vec sol) {
 
-    int n_solutions = 5;
+    int n_solutions = 12;
     std::vector<bool_vec> solutions(n_solutions);
 
     for (int i = 0;i < n_solutions;i ++) {

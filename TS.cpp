@@ -20,7 +20,7 @@ sat_answer TS(ClauseSet * clause_set, std::string str = "") {
 
     int n_vars = clause_set->variables.size();
 
-    int iter = 0, bestiter = 0, maxiter = 1000;
+    int iter = 0, bestiter = 0, maxiter = 200;
     std::vector<std::vector<int>> TL;
     bool_vec sol = generate_arbitrary_solution(n_vars);
     int sol_quality = evaluator(clause_set, bool_vec_to_string(sol));
