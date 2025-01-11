@@ -97,7 +97,7 @@ std::string solution_to_string(bool *solution, int n_variables) {
 
 void crossover(population_t &a, population_t &b, population_t &child, int n_variables) {
   for(int i=1; i<=n_variables; i++) {
-    child.second[i] = (i%2 ? a.second[i] : b.second[i]);
+     child.second[i] = (rand()&1 ?a.second[i] : b.second[i]);
   }
 }
 
@@ -200,7 +200,7 @@ sat_solution GENETIC(ClauseSet *clause_set, std::string solution = "") {
     delete current_generation[i].second;
   }
 
-  return {false, ""};
+  return {false, solution_to_string(current_generation[0].second, clause_set->variables.size())};
 }
 
 #endif
