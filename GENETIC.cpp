@@ -13,10 +13,10 @@ const double ELITISM_RATE = 0.7;
 const int BEST_THRESHOLD = ELITISM_RATE*POP_SIZE;
 const int ITERATION_LIMIT = 1000;
 
-unsigned int seed;
+unsigned int seed_GENETIC;
 
 void set_seed_GENETIC(int s) {
-    seed = s;
+    seed_GENETIC = s;
 }
 
 bool comp(population_t &a, population_t &b) {
@@ -159,7 +159,7 @@ bool has_same_type_literals(ClauseSet* clause_set, int var, bool negative) {
 
 sat_solution GENETIC(ClauseSet *clause_set, std::string solution = "") {
 
-  srand(seed);
+  srand(seed_GENETIC);
 
   if(check_trivial_cases(clause_set, &solution)) {
     return {true, solution};

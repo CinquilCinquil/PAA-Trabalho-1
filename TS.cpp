@@ -8,15 +8,15 @@
 using sat_answer = std::tuple<bool, std::string>;
 using bool_vec = std::vector<bool>;
 
-unsigned int seed;
+unsigned int seed_TS;
 
 void set_seed_TS(int s) {
-    seed = s;
+    seed_TS = s;
 }
 
 sat_answer TS(ClauseSet * clause_set, std::string str = "") {
 
-    srand(seed);
+    srand(seed_TS);
 
     int n_vars = clause_set->variables.size();
 
