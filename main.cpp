@@ -28,6 +28,13 @@ int main(int argc, char **argv)
             return 0;
         }
 
+        unsigned int seed;
+        if(argc == 5) {
+            seed = std::stoi(argv[4]);
+        } else {
+            seed = time(0);
+        }
+
         sat_solution(*alg)(ClauseSet *, std::string);
 
         if (input_algorithm == "DPLL") {
@@ -58,18 +65,15 @@ int main(int argc, char **argv)
         std::ofstream outFile(solution_path);
 
         std::string total_execution_info;
-        
-        unsigned int seed;
-        if(argc == 5) {
-            seed = std::stoi(argv[4]);
-        } else {
-            seed = time(0);
-        }
-
     
         for (int i = 0;i < repetitions;i ++) {
 
             srand(seed+i);
+            if (input_algorithm == "TS") {
+                set_seed_TS(seed+i);
+            } else if (input_algorithm == "GENETIC") {
+                set_seed_GENETIC(seed+i);
+            }
 
             auto start = std::chrono::high_resolution_clock::now();
 
