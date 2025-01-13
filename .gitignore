@@ -8,3 +8,5 @@ test_cases/uf50-218/*.txt
 test_cases/uf125-538/**/*.txt
 test_results/*.txt
 test_results/*/*.txt
+main.exe
+a.out
