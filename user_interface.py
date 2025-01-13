@@ -21,8 +21,9 @@ while True:
 
     if selected_option == 1:
         filepath = input("Please enter the path to the folder containing tests: ")
-        run_tests(current_alg, filepath)
-        compose_test_results(current_alg, filepath)
+        print("running with 5 repetitions");
+        run_tests(current_alg, filepath, 5)
+        compose_test_results(current_alg, filepath, 5)
         print("All finished")
     elif selected_option == 2:
         filepath = input("Please enter the path to the test file: ")
@@ -31,7 +32,7 @@ while True:
         if os.name == 'nt':
             run_main = "main.exe"
 
-        command = [run_main, current_alg, filepath]
+        command = [run_main, current_alg, filepath, "./test_results"]
 
         subprocess.run(command, shell=False)
     elif selected_option == 3:

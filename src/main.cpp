@@ -8,6 +8,23 @@
 #include "CNF_reader.cpp"
 #include "./algorithms/GENETIC.cpp"
 
+
+enum ARGUMENTS {
+    PROGRAM_NAME,
+    ALGORITHM_ARG,
+    INPUT_FILE_ARG,
+    OUTPUT_FOLDER_ARG,
+    REPETITIONS_ARG,
+    SEED_ARG
+};
+
+std::string get_file_name(char *filepath) {
+    std::string path = std::string(filepath);
+    std::string name_with_extension = path.substr(path.find_last_of("/\\")+1);
+    int last_point = name_with_extension.find_last_of('.');
+    std::string name_without_extension = name_with_extension.substr(0, last_point);
+    return name_without_extension;
+}
 int main(int argc, char **argv)
 {   
     //ClauseSet *test = new ClauseSet({{"x", "-y"}, {"x"}, {"y"}});
@@ -18,10 +35,11 @@ int main(int argc, char **argv)
     /**
     * Running the tests for the specified file path in argv.
     */
-    if (argc >= 4) {
-        std::string input_algorithm = argv[1];
-        auto input_filepath = argv[2];
-        int repetitions = std::stoi(argv[3]);
+    if (argc >= 5) {
+        std::string input_algorithm = argv[ALGORITHM_ARG];
+        auto input_filepath = argv[INPUT_FILE_ARG];
+        auto output_folderpath = argv[OUTPUT_FOLDER_ARG];
+        int repetitions = std::stoi(argv[REPETITIONS_ARG]);
 
         if (repetitions <= 0) {
             std::cout << "Error: 'repetitions' must be a positive number.\n";
@@ -29,8 +47,8 @@ int main(int argc, char **argv)
         }
 
         unsigned int seed;
-        if(argc == 5) {
-            seed = std::stoi(argv[4]);
+        if(argc == SEED_ARG+1) {
+            seed = std::stoi(argv[SEED_ARG]);
         } else {
             seed = time(0);
         }
@@ -60,8 +78,9 @@ int main(int argc, char **argv)
 
         std::cout << "Executing tests for: " << input_filepath << '\n';
         ClauseSet *test = CNF_reader(input_filepath);
-
-        std::string solution_path = std::string(input_filepath) + "_" + input_algorithm + "_results.txt";
+        
+        std::string input_filename = get_file_name(input_filepath);
+        std::string solution_path = std::string(output_folderpath) + "/" + input_filename + "_" + input_algorithm + "_results.txt";
         std::ofstream outFile(solution_path);
 
         std::string total_execution_info;

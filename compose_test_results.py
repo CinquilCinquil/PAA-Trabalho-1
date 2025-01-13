@@ -6,7 +6,7 @@ import os
 import sys
 
 def compose_test_results(alg, test_folder, repetitions):
-    path = "test_results" + os.path.sep + "composed_results_" + alg + "_" + repetitions + "rep_" + test_folder.replace("\\", "").replace("/", "_") + ".txt"
+    path = "test_results" + os.path.sep + "composed_results_" + alg + "_" + str(repetitions) + "rep_" + test_folder.replace("\\", "").replace("/", "_") + ".txt"
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     with open(path, 'w') as composed_result_file:
