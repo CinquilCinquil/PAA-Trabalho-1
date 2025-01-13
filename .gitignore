@@ -5,5 +5,6 @@ test_cases/genetic_training/*
 test_cases/uf250-1065/*
 test_cases/uf20-91/*.txt
 test_cases/uf50-218/*.txt
+test_cases/uf125-538/**/*.txt
 test_results/*.txt
 test_results/*/*.txt
