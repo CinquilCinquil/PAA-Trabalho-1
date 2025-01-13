@@ -1,7 +1,7 @@
 #ifndef GENETIC_file
 #define GENETIC_file
 
-#include "Clause.cpp"
+#include "../Clause.cpp"
 #include "DLIS.cpp"
 #include "vector"
 

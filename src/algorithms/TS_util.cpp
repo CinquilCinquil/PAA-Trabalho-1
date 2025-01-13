@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "Clause.cpp"
+#include "../Clause.cpp"
 
 using bool_vec = std::vector<bool>;
 

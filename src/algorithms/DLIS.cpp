@@ -1,7 +1,7 @@
 #ifndef DLIS_file
 #define DLIS_file
 
-#include "Clause.cpp"
+#include "../Clause.cpp"
 
 /**
  * Returns the variable with most occurences in a clause set.

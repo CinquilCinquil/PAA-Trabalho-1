@@ -1,7 +1,7 @@
 #ifndef DPLL_file
 #define DPLL_file
 
-#include "Clause.cpp"
+#include "../Clause.cpp"
 #include "DLIS.cpp"
 
 using sat_solution = std::tuple<bool, std::string>;

@@ -1,12 +1,12 @@
 #include <iostream>
 #include <chrono>
 #include <stdlib.h>
-#include "DPLL.cpp"
-#include "CIDPLL.cpp"
-#include "TS.cpp"
+#include "./algorithms/DPLL.cpp"
+#include "./algorithms/CIDPLL.cpp"
+#include "./algorithms/TS.cpp"
 #include "Clause.cpp"
 #include "CNF_reader.cpp"
-#include "GENETIC.cpp"
+#include "./algorithms/GENETIC.cpp"
 
 int main(int argc, char **argv)
 {   

@@ -2,7 +2,7 @@
 #define TS_file
 
 #include <stdlib.h>
-#include "Clause.cpp"
+#include "../Clause.cpp"
 #include "TS_util.cpp"
 
 using sat_answer = std::tuple<bool, std::string>;

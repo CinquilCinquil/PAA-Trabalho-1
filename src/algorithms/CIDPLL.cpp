@@ -1,7 +1,7 @@
 #ifndef CIDPLL_file
 #define CIDPLL_file
 
-#include "Clause.cpp"
+#include "../Clause.cpp"
 #include "DLIS.cpp"
 
 using sat_solution = std::tuple<bool, std::string>;
