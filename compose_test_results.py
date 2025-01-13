@@ -7,15 +7,19 @@ import sys
 
 def compose_test_results(alg, test_folder, repetitions):
     path = "test_results" + os.path.sep + "composed_results_" + alg + "_" + str(repetitions) + "rep_" + test_folder.replace("\\", "").replace("/", "_") + ".txt"
+    folder_name = os.path.basename(test_folder)
+    results_folder = os.path.join("test_results", folder_name);
+
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     with open(path, 'w') as composed_result_file:
         composed_result_file.write("name, is_sat, evaluation, solution, time, seed\n")
 
-        for f in os.listdir(test_folder):
+        for f in os.listdir(results_folder):
             correct_alg = ("_" + alg + "_") in f or alg == ""
+
             if f.split(".")[-1] == "txt" and correct_alg:
-                with open(test_folder + os.path.sep + f, 'r') as result_file:
+                with open(results_folder + os.path.sep + f, 'r') as result_file:
                     for line in result_file.readlines():
                         composed_result_file.write(f + ", " + line)
     

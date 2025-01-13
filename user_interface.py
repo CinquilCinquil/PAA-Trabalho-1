@@ -36,8 +36,9 @@ while True:
 
         subprocess.run(command, shell=False)
     elif selected_option == 3:
-        select_alg = int(input("Type 1 for CIDPLL or 2 for DPLL: "))
-        current_alg = "CIDPLL" if select_alg == 1 else "DPLL"
+        select_alg = int(input("Type 1 for CIDPLL, 2 for DPLL, 3 for GENETIC and 4 for TABOO SEARCH: "))
+        algorithms = ["CIDPLL", "DPLL", "GENETIC", "TS"]
+        current_alg = algorithms[select_alg-1]
     elif selected_option == 4:
         break
     else:
