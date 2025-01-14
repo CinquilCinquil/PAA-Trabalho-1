@@ -44,7 +44,7 @@ def process_test_results(algorithm, repetitions):
         best_solution[name] = (int(distance), float(time), int(guess));
       total_time += float(time)
 
-    file = open(f"test_results/extra_{algorithm}_uf{instance[N_CLAUSES]}-{instance[N_VARIABLES]}.txt", 'w')
+    file = open(os.path.join("test_results", f"extra_{algorithm}_uf{instance[N_CLAUSES]}-{instance[N_VARIABLES]}.txt"), 'w')
     file.write("#id, distance\n")
     for name in best_solution:
       solution = best_solution[name]

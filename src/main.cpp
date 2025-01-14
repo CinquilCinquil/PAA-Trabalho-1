@@ -6,8 +6,9 @@
 #include "./algorithms/TS.cpp"
 #include "Clause.cpp"
 #include "CNF_reader.cpp"
+#include <filesystem>
 #include "./algorithms/GENETIC.cpp"
-
+namespace fs = std::filesystem;
 
 enum ARGUMENTS {
     PROGRAM_NAME,
@@ -80,7 +81,7 @@ int main(int argc, char **argv)
         ClauseSet *test = CNF_reader(input_filepath);
         
         std::string input_filename = get_file_name(input_filepath);
-        std::string solution_path = std::string(output_folderpath) + "/" + input_filename + "_" + input_algorithm + "_results.txt";
+        fs::path solution_path = fs::path(output_folderpath) /  fs::path(input_filename + "_" + input_algorithm + "_results.txt");
         std::ofstream outFile(solution_path);
 
         std::string total_execution_info;

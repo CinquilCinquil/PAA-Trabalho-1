@@ -8,10 +8,10 @@
 using sat_solution = std::tuple<bool, std::string>;
 using population_t = std::pair<int, bool*>;
 
-const int POP_SIZE = 100;
-const double ELITISM_RATE = 0.7;
+const int POP_SIZE = 200;
+const double ELITISM_RATE = 0.5;
 const int BEST_THRESHOLD = ELITISM_RATE*POP_SIZE;
-const int ITERATION_LIMIT = 1000;
+const int ITERATION_LIMIT = 1200;
 
 unsigned int seed_GENETIC;
 
