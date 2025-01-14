@@ -5,7 +5,7 @@ from run_tests import run_tests
 from compose_test_results import compose_test_results
 from process_test_results import process_test_results
 
-subprocess.run(["g++", os.path.join("src", "main.cpp"), "-o", "main.exe"], shell=False)
+subprocess.run(["g++", os.path.join("src", "main.cpp"), "-o", "main.exe", "-O3", "-std=c++17"], shell=False)
 
 print("\n### WELCOME ###\n")
 print("This is a menu where you can execute tests with the available SAT solvers.\n")
