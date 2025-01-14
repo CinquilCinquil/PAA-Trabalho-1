@@ -49,7 +49,8 @@ while True:
         for fold in folders:
             run_tests(current_alg, os.path.join("test_cases", fold), repetitions)
             compose_test_results(current_alg, os.path.join("test_cases", fold), repetitions)
-        process_test_results(current_alg, repetitions)
+        print("Done! Composed test results in test_results folder.")
+        #process_test_results(current_alg, repetitions)
 
     elif selected_option == 5:
         break;
