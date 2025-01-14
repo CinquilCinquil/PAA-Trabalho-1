@@ -8,7 +8,7 @@ import subprocess
 
 def run_tests(alg, test_folder, repetitions):
     run_main = "./main.exe"
-    test_folder_name = os.path.basename(test_folder);
+    test_folder_name = os.path.basename(test_folder)
     
     if os.name == 'nt':
         run_main = "main.exe"

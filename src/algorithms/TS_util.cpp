@@ -7,6 +7,8 @@
 
 using bool_vec = std::vector<bool>;
 
+const int N_NEIGHBORS = 12;
+
 std::string bool_vec_to_string(bool_vec arr) {
     std::string return_str = "";
     for (int i = 0;i < arr.size();i ++) {
@@ -46,10 +48,9 @@ std::vector<bool_vec> get_neighbour_solutions(bool_vec sol) {
 
 std::vector<bool_vec> get_neighbour_solutions(bool_vec sol) {
 
-    int n_solutions = 12;
-    std::vector<bool_vec> solutions(n_solutions);
+    std::vector<bool_vec> solutions(N_NEIGHBORS);
 
-    for (int i = 0;i < n_solutions;i ++) {
+    for (int i = 0;i < N_NEIGHBORS;i ++) {
             bool_vec new_solution(sol.size());
             std::copy(sol.begin(), sol.end(), new_solution.begin());
 

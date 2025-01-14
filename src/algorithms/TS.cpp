@@ -14,18 +14,20 @@ void set_seed_TS(int s) {
     seed_TS = s;
 }
 
+const int MAX_ITERATIONS = 200;
+
 sat_answer TS(ClauseSet * clause_set, std::string str = "") {
 
     srand(seed_TS);
 
     int n_vars = clause_set->variables.size();
 
-    int iter = 0, bestiter = 0, maxiter = 200;
+    int iter = 0, bestiter = 0;
     std::vector<std::vector<int>> TL;
     bool_vec sol = generate_arbitrary_solution(n_vars);
     int sol_quality = evaluator(clause_set, bool_vec_to_string(sol));
 
-    while (iter - bestiter < maxiter) {
+    while (iter - bestiter < MAX_ITERATIONS) {
         iter ++;
         std::vector<bool_vec> solutions = get_neighbour_solutions(sol);
         bool_vec best_solution = get_best_solution(clause_set, solutions);
