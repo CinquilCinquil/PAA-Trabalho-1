@@ -7,6 +7,11 @@ V_DISTANCE=0;
 V_GUESS=2;
 
 
+def substring_from_chars(a, b, text):
+  pos_inicio = text.find(a)
+  pos_fim = text.find(b)
+  return text[pos_inicio + 1 : pos_fim].strip()
+
 def process_test_results(algorithm, repetitions):
   instances = [[20, 91], [50, 218], [125, 538]]
   output_file_path = os.path.join("test_results", f"processed_results_{algorithm}_{repetitions}rep.txt")
@@ -39,12 +44,16 @@ def process_test_results(algorithm, repetitions):
         best_solution[name] = (int(distance), float(time), int(guess));
       total_time += float(time)
 
+    file = open(f"test_results/extra_{algorithm}_uf{instance[N_CLAUSES]}-{instance[N_VARIABLES]}.txt", 'w')
+    file.write("#id, distance\n")
     for name in best_solution:
       solution = best_solution[name]
       total_correct += solution[V_GUESS];
       total_percent += float((instance[N_CLAUSES]-solution[V_DISTANCE])/instance[N_CLAUSES]);
+      file.write(f"{int(substring_from_chars('-', '_', name))}, {solution[V_DISTANCE]}\n");
+    file.close();
 
-    average_time = total_time/(len(best_solution)*repetitions)
+    average_time = total_time/(len(best_solution)*int(repetitions))
     average_percentage = total_percent/len(best_solution)
     average_correctness = total_correct/len(best_solution)
 
