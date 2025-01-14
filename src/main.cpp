@@ -8,13 +8,16 @@
 #include "CNF_reader.cpp"
 #include "./algorithms/GENETIC.cpp"
 
-#ifdef _WIN32
+#ifdef __unix__
+
+#define JOIN "/"
+
+#elif defined(_WIN32) || defined(WIN32)
+
 #define JOIN "\\"
+
 #endif
 
-#ifdef linux
-#define JOIN "/"
-#endif
 
 enum ARGUMENTS {
     PROGRAM_NAME,
