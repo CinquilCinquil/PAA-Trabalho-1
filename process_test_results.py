@@ -17,7 +17,7 @@ def process_test_results(algorithm, repetitions):
   output_file_path = os.path.join("test_results", f"processed_results_{algorithm}_{repetitions}rep.txt")
   output_file = open(output_file_path, 'w')
 
-  output_file.write("variables,clauses,average time,average % worse than the optimal,correct %\n")
+  output_file.write("#variables,clauses,average time,average % worse than the optimal,correct %\n")
   for instance in instances:
     composed_results_path = os.path.join(
       "test_results", 
