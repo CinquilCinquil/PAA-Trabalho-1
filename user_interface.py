@@ -5,6 +5,8 @@ from run_tests import run_tests
 from compose_test_results import compose_test_results
 from process_test_results import process_test_results
 
+print("Compiling main.cpp ...\n")
+
 subprocess.run(["g++", os.path.join("src", "main.cpp"), "-o", "main.exe", "-O3", "-std=c++17"], shell=False)
 
 print("\n### WELCOME ###\n")
@@ -32,10 +34,10 @@ while True:
         filepath = input("Please enter the path to the test file: ")
         
         run_main = "./main.exe"
-        if os.name == 'nt':
+        if os.name == 'nt': 
             run_main = "main.exe"
 
-        command = [run_main, current_alg, filepath, "./test_results"]
+        command = [run_main, current_alg, filepath, "./test_results", str(repetitions)]
 
         subprocess.run(command, shell=False)
     elif selected_option == 3:

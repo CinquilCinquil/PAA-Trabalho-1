@@ -15,7 +15,7 @@ def substring_from_chars(a, b, text):
 def process_test_results(algorithm, repetitions):
   instances = [[20, 91], [50, 218], [125, 538]]
   output_file_path = os.path.join("test_results", f"processed_results_{algorithm}_{repetitions}rep.txt")
-  output_file = open(output_file_path, 'w');
+  output_file = open(output_file_path, 'w')
 
   output_file.write("variables,clauses,average time,average % worse than the optimal,correct %\n")
   for instance in instances:
@@ -50,6 +50,7 @@ def process_test_results(algorithm, repetitions):
       solution = best_solution[name]
       total_correct += solution[V_GUESS];
       total_percent += float((instance[N_CLAUSES]-solution[V_DISTANCE])/instance[N_CLAUSES]);
+      print(name)
       file.write(f"{int(substring_from_chars('-', '_', name))}, {solution[V_DISTANCE]}\n");
     file.close();
 
